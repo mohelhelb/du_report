@@ -1,0 +1,15 @@
+### NOTES
+#
+# > pwd
+# > /home/mo/projects/du_report
+# > echo "./testdir/" | sed ":^./:${PWD}/:"
+# > /home/mo/projects/du_report/testdir
+#
+# > pwd
+# > /home/mo/projects/du_report
+# > echo "testdir" | sed -E "s:^[^/]+:${PWD}/&:"
+# > /home/mo/projects/du_report/testdir
+# > echo "/testdir" | sed -E "s:^[^/]+:${PWD}/&:"	# -E: Extended regular expresion (+ character)
+# > /testdir
+# > echo "/" | sed -E "s:^[^/]+:${PWD}/&:"
+# > /
