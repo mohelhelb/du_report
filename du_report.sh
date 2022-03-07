@@ -19,7 +19,7 @@ function display_dirs {
 # Get user
 user=$(whoami)
 # Disk Space Usage Directory (DSUD)
-du_dir="/home/${user}/disk_usage/"
+du_dir="/home/${user}/disk_usage"
 # Disk Space Usage Report File (DSURF)
 du_rpt="${du_dir}/du.rpt"
 # Disk Space Usage Configuration File (DSUCF)
@@ -56,5 +56,9 @@ do
 	fi
 done < <(sed "/^$/d ; s:^~/:${HOME}/: ; s:/$::" ${du_config_file} | sort -u)
 # Print invalid entries in DSUCF
-printf "Invalid Directories:\n"
-display_dirs "${invalid_dirs[@]}"
+if [[ ${#invalid_dirs[@]} -ne 0 ]]; then
+	printf "Invalid Directories:\n"
+	display_dirs "${invalid_dirs[@]}"
+fi
+# Exit script
+exit
