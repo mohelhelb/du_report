@@ -33,7 +33,7 @@ invalid_dirs=()
 # Script filename
 script_filename=$(basename $0)
 # Handle script options
-while getopts :a opt
+while getopts :aD: opt
 do
 	case ${opt} in
 		a)
@@ -41,8 +41,14 @@ do
 			sed -n '/^$/d ; p' ${du_config_file} 2> /dev/null
 			exit
 			;;
+		D)
+			# Remove entry from DSUCF and exit
+			sed -i "s:^${OPTARG}\$:target: ; /target/d" ${du_config_file} 2> /dev/null
+			sed -n '/^$/d ; p' ${du_config_file} 2> /dev/null
+			exit
+			;;
 		*)
-			printf "Bad Usage: ${script_filename} [-a]\nTry: Execute script with valid options\n"
+			printf "Bad Usage: ${script_filename} [-a|-D]\nTry: Execute script with valid options\n"
 			exit
 			;;
 	esac
