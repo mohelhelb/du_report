@@ -30,6 +30,23 @@ month=$(date +%B)
 year=$(date +%Y)
 # Create array of invalid directories
 invalid_dirs=()
+# Script filename
+script_filename=$(basename $0)
+# Handle script options
+while getopts :a opt
+do
+	case ${opt} in
+		a)
+			# Show all the entries in the DSUCF other than empty lines and exit
+			sed -n '/^$/d ; p' ${du_config_file} 2> /dev/null
+			exit
+			;;
+		*)
+			printf "Bad Usage: ${script_filename} [-a]\nTry: Execute script with valid options\n"
+			exit
+			;;
+	esac
+done
 # Create DSUD, if it does not exist
 mkdir -p ${du_dir}
 # Exit script if DSUCF does not exist or is empty
