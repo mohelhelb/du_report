@@ -25,3 +25,7 @@ The steps that should be taken to set up this script are as follows:
         [sudo chmod a+x ~/projects/du_report/du_report.sh]
         bash ~/projects/du_report/du_report.sh
 	```
+- View Disk Space Usage Report File.
+	```
+	vim ~/disk_usage/du.rpt
+	```
