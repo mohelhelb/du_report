@@ -11,7 +11,7 @@ function Help {
 	local script_filename=$1
 	printf "\nNAME\n\n${script_filename} - Top disk space usage\n\n"
         printf "SYNOPSIS\n\n${script_filename} [-a|-D file|-e file|-h|-n number]\n\n"
-	printf "DESCRIPTION\n\nThis Bash shell script is intended as a utility that generates a report, Disk Space Usage Report File (DSURF), on how much disk space is allocated to the largest subdirectories of given directories in the Disk Space Usage Configuration File (DSUCF). The directory that contains the DSUCF, Disk Space Usage Directory (DSUD), must be created in the user's home directory (/home/'user'/disk_usage/). The non-existent directories and duplicate ones in the DSUCF are discarded; only the valid directories are included in the DSURF. By default, the number of the largest subdirectories that are reported for each given directory is ten. However, it can also be specified by executing the script along with the appropriate option (n). It should also be taken into account that running this script multiple times does not generate separate report file, but rather it overwrites the existing one.\n\n"
+	printf "DESCRIPTION\n\nThis Bash shell script is intended as a utility that generates a report, Disk Space Usage Report File (DSURF), on how much disk space is allocated to the largest subdirectories of given directories in the Disk Space Usage Configuration File (DSUCF). The directory that contains the DSUCF, Disk Space Usage Directory (DSUD), must be created in the user's home directory (/home/'user'/disk_usage/). The non-existent directories and duplicate ones in the DSUCF are discarded; only the valid directories are included in the DSURF. By default, the number of the largest subdirectories that are reported for each given directory is ten. However, it can also be specified by executing the script along with the appropriate option (n). It should also be taken into account that running this script multiple times does not generate a separate report file, but rather it overwrites the existing one.\n\n"
         printf "OPTIONS\n\n"
         echo -e "-a\n\tDisplay all the entries in the DSUCF other than empty lines and exit.\n"
         echo -e "-e directory\n\tAppend directory to the DSUCF and exit.\n"
@@ -21,7 +21,7 @@ function Help {
 }
 # Output directories
 function display_dirs {
-	local directories="$@"
+	local directories=("$@")
 	local directory
 	for directory in "${directories[@]}"
 	do
@@ -48,24 +48,26 @@ script_filename=$(basename $0)
 # Default number of subdirectories
 num_subdirs=10
 # Handle script options
+exec 3>&2
+exec 2> /dev/null
 while getopts :aD:e:hn: opt
 do
 	case ${opt} in
 		a)
 			# Show all the entries in the DSUCF other than empty lines and exit
-			sed -n '/^$/d ; p' ${du_config_file} 2> /dev/null
+			sed -n '/^$/d ; p' ${du_config_file}
 			exit
 			;;
 		D)
 			# Remove entry from DSUCF and exit
 			sed -i "s:^${OPTARG}\$:target: ; /target/d" ${du_config_file} 2> /dev/null
-			sed -n '/^$/d ; p' ${du_config_file} 2> /dev/null
+			sed -n '/^$/d ; p' ${du_config_file}
 			exit
 			;;
 		e)
 			# Add entry to DSUCF and exit
-			sed -i "\$a\\${OPTARG}" ${du_config_file} 2> /dev/null
-			sed -n '/^$/d ; p' ${du_config_file} 2> /dev/null
+			sed -i "\$a\\${OPTARG}" ${du_config_file}
+			sed -n '/^$/d ; p' ${du_config_file}
 			exit
 			;;
 		h)
@@ -87,6 +89,7 @@ do
 			;;
 	esac
 done
+exec 2>&3
 # Create DSUD, if it does not exist
 mkdir -p ${du_dir}
 # Exit script if DSUCF does not exist or is empty
