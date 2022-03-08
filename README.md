@@ -2,7 +2,7 @@
 
 #### Description
 
-This Bash script is intended as a utility that helps monitor the disk space usage for specific directories in the user's file system.
+This Bash shell script is intended as a utility that helps monitor the disk space usage for specific directories in the user's file system.
 
 #### Setup
 
@@ -25,7 +25,7 @@ The steps that should be taken to set up this script are as follows:
         [sudo chmod a+x ~/projects/du_report/du_report.sh]
         bash ~/projects/du_report/du_report.sh
 	```
-- View Disk Space Usage Report File.
+- View Disk Space Usage Report File (DSURF).
 	```
 	vim ~/disk_usage/du.rpt
 	```
