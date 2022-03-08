@@ -4,7 +4,7 @@
 # > /home/mo/projects/du_report
 # > echo "./testdir/" | sed ":^./:${PWD}/:"
 # > /home/mo/projects/du_report/testdir
-#
+
 # > pwd
 # > /home/mo/projects/du_report
 # > echo "testdir" | sed -E "s:^[^/]+:${PWD}/&:"
@@ -13,3 +13,12 @@
 # > /testdir
 # > echo "/" | sed -E "s:^[^/]+:${PWD}/&:"
 # > /
+
+# FD 2 (STDERR) --> terminal screen (default)
+# if FD 3 --> FD 2, then FD 2 and FD 3 --> terminal screen
+# if FD 3 --> FD 2 and FD 2 --> /dev/null, then FD 2 --> /dev/null and FD 3 --> terminal screen
+# if FD 3 --> FD 2 and FD 2 --> /dev/null and FD 2 --> FD 3, then FD 2 and FD 3 --> terminal screen
+# exec 3>&2
+# exec 2> /dev/null
+# snippet of code
+# exec 2>&3
